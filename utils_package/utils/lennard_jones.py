@@ -26,7 +26,7 @@ class Atom():
                                  markersize=40)[0]
         else:
             self.artist.set_data(self.r[0],self.r[1])
-            self.artist.set_color(self.color)
+            self.artist.set_facecolor(self.color)
 
     def set_color(self,color):
         if isinstance(color,str):
