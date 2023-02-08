@@ -2,18 +2,18 @@ import numpy as np
 
 class Atom():
     
-    def __init__(self,r):
+    def __init__(self,r,color='C0'):
         self.r = np.array(r,dtype=float)
         assert self.r.shape == (2,), 'Wrong dimension for position vector, r'
         self.ax = None
         self.artist = None
-        self.color = 'C0'
+        self.color = color
         
     def __repr__(self):
-        return 'Atom(r=[{},{}])'.format(self.r[0],self.r[1])
+        return 'Atom(r=[{},{}], color={})'.format(self.r[0],self.r[1],self.color)
 
     def __str__(self):
-        return 'x={}, y={}, r={}'.format(self.r[0],self.r[1],self.r)
+        return 'x={}, y={}, r={}, color={}'.format(self.r[0],self.r[1],self.r, self.color)
     
     def plot(self,ax):
         
@@ -70,6 +70,12 @@ class Atoms():
                 rl = np.linalg.norm(r)
                 f += -4 * 6*(rl**6 - 2)/rl**13 * r/rl
         return forces
+
+    def get_positions():
+        positions = np.zeros((len(self.atoms),2))
+        for atom,pos in zip(self.atoms,positions):
+            pos = atom.r.copy()
+        return positions
 
     def set_positions(self,positions):
         for atom, pos in zip(self.atoms,positions):
