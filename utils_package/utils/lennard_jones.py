@@ -4,8 +4,10 @@ class Atom():
     
     def __init__(self,r):
         self.r = np.array(r,dtype=float)
+        assert r.shape == (2,), 'Wrong dimension for position vector, r'
         self.ax = None
         self.artist = None
+        self.color = 'C0'
         
     def __repr__(self):
         return 'Atom(r=[{},{}])'.format(self.r[0],self.r[1])
@@ -19,11 +21,21 @@ class Atom():
         if self.ax is not ax:
             self.ax = ax
             self.artist = ax.plot(self.r[0],self.r[1],marker='o',
-                                  markerfacecolor='red',
+                                  markerfacecolor=self.color,
                                   markeredgecolor='k',
                                  markersize=40)[0]
         else:
             self.artist.set_data(self.r[0],self.r[1])
+
+    def set_color(self,color):
+        if isinstance(color,str):
+            self.color = color
+        elif isinstance(color,int) and 0 < color < 10:
+            self.color = f'C{color}'
+        else:
+            assert False, 'color must be string or an integer below 10'
+
+    
             
 class Atoms():
     
