@@ -74,7 +74,7 @@ class Atoms():
     def get_positions(self):
         positions = np.zeros((len(self.atoms),2))
         for atom,pos in zip(self.atoms,positions):
-            pos = atom.r.copy()
+            pos += atom.r
         return positions
 
     def set_positions(self,positions):
