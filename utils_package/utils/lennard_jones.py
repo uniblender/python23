@@ -26,7 +26,6 @@ class Atom():
                                  markersize=40)[0]
         else:
             self.artist.set_data(self.r[0],self.r[1])
-            self.artist.set_facecolor(self.color)
 
     def set_color(self,color):
         if isinstance(color,str):
@@ -35,6 +34,8 @@ class Atom():
             self.color = f'C{color}'
         else:
             assert False, 'color must be string or an integer below 10'
+        if self.artist is not None:
+            self.artist.set_markerfacecolor(self.color)
 
 
     
