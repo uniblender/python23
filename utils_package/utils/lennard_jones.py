@@ -71,7 +71,7 @@ class Atoms():
                 f += -4 * 6*(rl**6 - 2)/rl**13 * r/rl
         return forces
 
-    def get_positions():
+    def get_positions(self):
         positions = np.zeros((len(self.atoms),2))
         for atom,pos in zip(self.atoms,positions):
             pos = atom.r.copy()
