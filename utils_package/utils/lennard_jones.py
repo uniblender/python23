@@ -9,10 +9,15 @@ def sanitize_color(color):
         assert False, 'color must be string or an integer below 10'
     return color
 
+def sanitize_position(pos):
+    pos = np.array(pos,dtype=float)
+    assert pos.shape == (2,), 'position must be 2D'
+    return pos
+
 class Atom():
     
     def __init__(self,r,color='C0'):
-        self.r = np.array(r,dtype=float)
+        self.r = sanitize_position(r)
         assert self.r.shape == (2,), 'Wrong dimension for position vector, r'
         self.ax = None
         self.artist = None
@@ -36,6 +41,11 @@ class Atom():
         else:
             self.artist.set_data(self.r[0],self.r[1])
 
+    def set_position(self,pos):
+        self.r = sanitize_position(pos)
+        if self.artist is not None:
+            self.artist.set_data([self.r[0]],[self.r[1]])
+            
     def set_color(self,color):
         self.color = sanitize_color(color)
         if self.artist is not None:
@@ -81,6 +91,9 @@ class Atoms():
             pos += atom.r
         return positions
 
-    def set_positions(self,positions):
+    def set_positions(self, positions, update_plot=True):
         for atom, pos in zip(self.atoms,positions):
-            atom.r = pos
+            if update_plot:
+                atom.set_position(pos)
+            else:
+                atom.r = pos
