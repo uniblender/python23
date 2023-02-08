@@ -4,7 +4,7 @@ class Atom():
     
     def __init__(self,r):
         self.r = np.array(r,dtype=float)
-        assert r.shape == (2,), 'Wrong dimension for position vector, r'
+        assert self.r.shape == (2,), 'Wrong dimension for position vector, r'
         self.ax = None
         self.artist = None
         self.color = 'C0'
