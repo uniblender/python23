@@ -1,5 +1,14 @@
 import numpy as np
 
+def sanitize_color(color):
+    if isinstance(color,str):
+        pass
+    elif isinstance(color,int) and 0 < color < 10:
+        color = f'C{color}'
+    else:
+        assert False, 'color must be string or an integer below 10'
+    return color
+
 class Atom():
     
     def __init__(self,r,color='C0'):
@@ -7,7 +16,7 @@ class Atom():
         assert self.r.shape == (2,), 'Wrong dimension for position vector, r'
         self.ax = None
         self.artist = None
-        self.color = color
+        self.color = sanitize_color(color)
         
     def __repr__(self):
         return 'Atom(r=[{},{}], color={})'.format(self.r[0],self.r[1],self.color)
@@ -28,12 +37,7 @@ class Atom():
             self.artist.set_data(self.r[0],self.r[1])
 
     def set_color(self,color):
-        if isinstance(color,str):
-            self.color = color
-        elif isinstance(color,int) and 0 < color < 10:
-            self.color = f'C{color}'
-        else:
-            assert False, 'color must be string or an integer below 10'
+        self.color = sanitize_color(color)
         if self.artist is not None:
             self.artist.set_markerfacecolor(self.color)
 
