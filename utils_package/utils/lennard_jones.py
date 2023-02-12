@@ -41,6 +41,9 @@ class Atom():
         else:
             self.artist.set_data(self.r[0],self.r[1])
 
+    def get_position(self):
+        return self.r
+
     def set_position(self,pos):
         self.r = sanitize_position(pos)
         if self.artist is not None:
