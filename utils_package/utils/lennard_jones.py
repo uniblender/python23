@@ -61,12 +61,14 @@ class Atoms():
     
     def __init__(self,atoms):
         self.atoms = atoms
-        self._current_index = 0
         
     def __iter__(self):
         for atom in self.atoms:
             yield atom
-    
+
+    def __getitem__(self, item):
+        return self.atoms[item]
+            
     def get_potential_energy(self):
         u = 0
         for atom in self.atoms:
@@ -100,3 +102,17 @@ class Atoms():
                 atom.set_position(pos)
             else:
                 atom.r = pos
+
+    def get_atomic_potential(self, xs, ys):
+        shape = np.array(xs).shape
+        xsflat = np.array(xs).flatten()
+        ysflat = np.array(ys).flatten()
+        zsflat = []
+
+        for x, y in zip(xsflat, ysflat):
+            p = [x,y]
+            extra_atom = Atom(p)
+            atoms_plus_one = Atoms([atom for atom in self] + [extra_atom])
+            zsflat.append(atoms_plus_one.get_potential_energy())
+        zs = np.reshape(np.array(zsflat),shape)
+        return zs
