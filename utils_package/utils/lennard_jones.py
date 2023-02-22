@@ -104,15 +104,17 @@ class Atoms():
                 atom.r = pos
 
     def get_atomic_potential(self, xs, ys):
+        e0 = self.get_potential_energy()
+
         shape = np.array(xs).shape
         xsflat = np.array(xs).flatten()
         ysflat = np.array(ys).flatten()
         zsflat = []
-
+        
         for x, y in zip(xsflat, ysflat):
             p = [x,y]
             extra_atom = Atom(p)
             atoms_plus_one = Atoms([atom for atom in self] + [extra_atom])
-            zsflat.append(atoms_plus_one.get_potential_energy())
+            zsflat.append(atoms_plus_one.get_potential_energy() - e0)
         zs = np.reshape(np.array(zsflat),shape)
         return zs
