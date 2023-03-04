@@ -14,6 +14,10 @@ def sanitize_position(pos):
     assert pos.shape == (2,), 'position must be 2D'
     return pos
 
+t4plot = np.linspace(0, 2*np.pi, 30)
+x4plot = 2**(1/6)/2*np.cos(t4plot)
+y4plot = 2**(1/6)/2*np.sin(t4plot)
+
 class Atom():
     
     def __init__(self,r,color='C0'):
@@ -34,12 +38,17 @@ class Atom():
         # create if first time with this Axis
         if self.ax is not ax:
             self.ax = ax
-            self.artist = ax.plot(self.r[0],self.r[1],marker='o',
-                                  markerfacecolor=self.color,
-                                  markeredgecolor='k',
-                                 markersize=40)[0]
+            #self.artist = ax.plot(self.r[0],self.r[1],marker='o',
+            #                      markerfacecolor=self.color,
+            #                      markeredgecolor='k',
+            #                     markersize=40)[0]
+            self.artist = ax.fill(x4plot + self.r[0],
+                                  y4plot + self.r[1],
+                                  facecolor = self.color,
+                                  edgecolor = 'k')[0]
         else:
-            self.artist.set_data(self.r[0],self.r[1])
+            xy = np.array([x4plot + self.r[0], y4plot + self.r[1]]).T
+            self.artist.set_xy(xy)
 
     def get_position(self):
         return self.r
@@ -47,7 +56,8 @@ class Atom():
     def set_position(self,pos):
         self.r = sanitize_position(pos)
         if self.artist is not None:
-            self.artist.set_data([self.r[0]],[self.r[1]])
+            xy = np.array([x4plot + self.r[0], y4plot + self.r[1]]).T
+            self.artist.set_xy(xy)
             
     def set_color(self,color):
         self.color = sanitize_color(color)
